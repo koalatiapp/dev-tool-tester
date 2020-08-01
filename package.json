@@ -1,6 +1,6 @@
 {
   "name": "@koalati/dev-tool-tester",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A CLI tool tester for Koalati tool developers",
   "main": "index.js",
   "bin": "index.js",

@@ -1,4 +1,6 @@
-const Tool = require(process.cwd() + '/tool.js');
+#!/usr/bin/env node
+
+const Tool = require(`${process.cwd()}/tool.js`);
 const ResultsValidator = require('@koalati/results-validator');
 const puppeteer = require('puppeteer');
 const args = require('minimist')(process.argv.slice(2))
