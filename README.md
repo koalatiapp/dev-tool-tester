@@ -22,5 +22,5 @@ _It is important to have the extra arguments in there, because the testing scrip
 Then, from within your tool's directory, you can test your tool with the following command:
 
 ```bash
-npx @koalati/dev-tool-tester --url=\"http://koalati.com/\"
+npx @koalati/dev-tool-tester --url="http://koalati.com/"
 ```
