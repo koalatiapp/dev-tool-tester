@@ -20,3 +20,7 @@ sudo npm install --unsafe-perm=true --allow-root
 _It is important to have the extra arguments in there, because the testing script uses Puppeteer, which relies on the headless Chromium browser. Running in root and adding the `--unsafe-perm=true --allow-root` arguments is usually required for the Chromium browser to download and install itself along with Puppeteer._
 
 Then, from within your tool's directory, you can test your tool with the following command:
+
+```bash
+npx @koalati/dev-tool-tester --url=\"http://koalati.com/\"
+```
