@@ -1,6 +1,6 @@
 {
   "name": "@koalati/dev-tool-tester",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A CLI tool tester for Koalati tool developers",
   "main": "index.js",
   "bin": "index.js",
@@ -24,7 +24,7 @@
     "url": "https://github.com/koalatiapp/dev-tool-tester/issues"
   },
   "homepage": "https://github.com/koalatiapp/dev-tool-tester#readme",
-  "devDependencies": {
+  "dependencies": {
     "@koalati/results-validator": "^1.0.0",
     "cli-color": "^2.0.0",
     "minimist": "^1.2.5",
