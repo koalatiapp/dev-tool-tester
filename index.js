@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
 const Tool = require(`${process.cwd()}/tool.js`);
-const ResultsValidator = require('@koalati/results-validator');
+const validator = new (require('@koalati/results-validator'))();
 const puppeteer = require('puppeteer');
 const args = require('minimist')(process.argv.slice(2))
 const clc = require('cli-color');
 const maxPageLoadAttempts = 3;
-let encodedResults = null;
+const consoleMessages = { errors: [], warnings: [], others: [] };
+let jsonResults = null;
 
 if ('url' in args) {
     (async () => {
@@ -15,9 +16,20 @@ if ('url' in args) {
         await page.setExtraHTTPHeaders({ DNT: "1" });
         await page.setViewport({ width: 1920, height: 1080 });
 
+        // Collect errors from the console in case the tool needs it
+        page.on('pageerror', ({ message }) => consoleMessages.errors.push(message))
+            .on('requestfailed', request => consoleMessages.errors.push(`${request.failure().errorText} ${request.url()}`))
+            .on('console', message => {
+                const type = message.type().substr(0, 3).toUpperCase();
+                const key = { ERR: 'errors', WAR: 'warnings' }[type] || 'others';
+                consoleMessages[key].push(message.text());
+            });
+
+        // Attempt to connect to the targeted page
         for (let attemptCount = 1; attemptCount <= maxPageLoadAttempts; attemptCount++) {
             try {
-                await page.goto(args['url'], { waitUntil: "networkidle2",  timeout: 7500 * attemptCount });
+                await page.goto(args['url'], { waitUntil: "networkidle0",  timeout: 7500 * attemptCount });
+                break;
             } catch (error) {
                 if (attemptCount == maxPageLoadAttempts) {
                     console.log(clc.red(JSON.stringify({ error: "The page could not be loaded within a 30 seconds timespan, and therefore could not be tested." })));
@@ -27,11 +39,17 @@ if ('url' in args) {
             }
         }
 
-        try {
-            const toolInstance = new Tool(page, puppeteer.devices);
-            await toolInstance.run();
+        // Prepare the data that will be provided to the tool
+        const availableData = {
+            page,
+            consoleMessages,
+            devices: puppeteer.devices
+        };
 
-            const validator = new ResultsValidator();
+        // Run the tool
+        try {
+            const toolInstance = new Tool(availableData);
+            await toolInstance.run();
             const validationErrors = validator.checkResults(toolInstance.results)
 
             if (validationErrors.length) {
@@ -42,7 +60,7 @@ if ('url' in args) {
                 process.exit(1);
             }
 
-            encodedResults = JSON.stringify(toolInstance.results, null, 2);
+            jsonResults = JSON.stringify(toolInstance.results, null, 2);
             await toolInstance.cleanup();
         } catch (error) {
             console.log(clc.red('An error occured while running the tool.'));
@@ -53,7 +71,7 @@ if ('url' in args) {
 
         console.log(clc.green('Tool ran successfully without any errors.'));
         console.log(clc.green('Here are the JSON encoded results it returned:'));
-        console.log(encodedResults);
+        console.log(jsonResults);
         await browser.close();
     })();
 } else {
