@@ -12,9 +12,11 @@ let jsonResults = null;
 if ('url' in args) {
     (async () => {
         const browser = await puppeteer.launch({ headless: true });
-        const page = await browser.newPage();
+        const context = await browser.createIncognitoBrowserContext();
+        const page = await context.newPage();
         await page.setExtraHTTPHeaders({ DNT: "1" });
         await page.setViewport({ width: 1920, height: 1080 });
+        await page.setCacheEnabled(false);
 
         // Collect errors from the console in case the tool needs it
         page.on('pageerror', ({ message }) => consoleMessages.errors.push(message))
