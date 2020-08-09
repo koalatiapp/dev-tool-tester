@@ -1,5 +1,7 @@
 # Koalati Tool Tester for Developers
 
+[![NPM version of @koalati/dev-tool-tester](https://img.shields.io/npm/v/@koalati/dev-tool-tester)](https://www.npmjs.com/package/@koalati/dev-tool-tester)
+
 This is a package that allows you to easily test Koalati tools from the command line.
 
 
