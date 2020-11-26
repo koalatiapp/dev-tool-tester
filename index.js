@@ -11,7 +11,12 @@ let jsonResults = null;
 
 if ('url' in args) {
     (async () => {
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({
+            args: [
+                '--disable-web-security',
+            ],
+            headless: true
+        });
         const context = await browser.createIncognitoBrowserContext();
         const page = await context.newPage();
         await page.setExtraHTTPHeaders({ DNT: "1" });
