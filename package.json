@@ -1,11 +1,11 @@
 {
   "name": "@koalati/dev-tool-tester",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "A CLI tool tester for Koalati tool developers",
   "main": "index.js",
-  "bin": "index.js",
+  "bin": "./bin/run-tool.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,8 @@
     "cli-color": "^2.0.0",
     "minimist": "^1.2.5",
     "puppeteer": "^5.2.1"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.1"
   }
 }
