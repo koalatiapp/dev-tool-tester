@@ -21,7 +21,6 @@ const executionPromise = (async () => {
 			for (const error of validationErrors) {
 				console.log(clc.red('Results validation error: ' + error));
 			}
-			await browser.close();
 			process.exit(1);
 		}
 
