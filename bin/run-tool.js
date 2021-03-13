@@ -18,6 +18,7 @@ const executionPromise = (async () => {
 		const validationErrors = validator.checkResults(toolResults)
 
 		if (validationErrors.length) {
+			console.log(JSON.stringify(toolResults, null, 2));
 			for (const error of validationErrors) {
 				console.log(clc.red('Results validation error: ' + error));
 			}
