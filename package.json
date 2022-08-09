@@ -28,7 +28,7 @@
     "@koalati/results-validator": "^1.0.5",
     "cli-color": "^2.0.0",
     "minimist": "^1.2.5",
-    "puppeteer": "^5.2.1"
+    "puppeteer": "^16.1.0"
   },
   "devDependencies": {
     "mocha": "^8.2.1"
